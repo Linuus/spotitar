@@ -1,0 +1,34 @@
+{
+  "AppDescription": {
+    "en": "Description of My Boilerplate App"
+  },
+  "AppIcon": {
+    "18x18": "images/icons/icon-18x18.png",
+    "36x18": "images/icons/icon-36x18.png",
+    "32x32": "images/icons/icon-32x32.png",
+    "64x64": "images/icons/icon-64x64.png",
+    "128x128": "images/icons/icon-128x128.png",
+    "300x300": "images/icons/icon-300x300.png"
+  },
+  "AppName": {
+    "en": "Ultimate-Guitar"
+  },
+  "BundleIdentifier": "ultimate-guitar",
+  "BundleType": "Application",
+  "BundleVersion": "0.0.1",
+  "Dependencies": {
+    "api": "1.0.0",
+    "views": "1.10.0"
+  },
+  "RequiredPermissions": [
+    "http://app.ultimate-guitar.com"
+  ],
+  "SupportedDeviceClasses": [
+    "Web",
+    "Desktop"
+  ],
+  "SupportedLanguages": [
+    "en"
+  ],
+  "VendorIdentifier": "net.linuspettersson"
+}

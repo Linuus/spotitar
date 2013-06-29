@@ -41,20 +41,25 @@ require([
   }
 
   function fetchTab(data) {
-    var res = $(data).find('result:first');
-    getData($(res).attr('url'), 'html', displayTab);
+    var results = $(data).find('results').attr('count');
+    if(results > 0) {
+      var res = $(data).find('result:first');
+      getData($(res).attr('url'), 'html', displayTab);
+    } else {
+      $("#tab-area").text("No tab was found");
+    }
   }
 
   function displayTab(data) {
     $("#tab-area").html(data);
   }
 
-  function getData(url, dataType, callback, error) {
+  function getData(url, dataType, callback) {
+    console.log("getData");
     $.ajax({
       url: url,
       dataType: dataType,
       success: function(data) {
-        console.log("Success");
         callback(data);
       },
       error: function(data) {

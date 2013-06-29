@@ -27,10 +27,17 @@ require([
   }
 
   function updateTab() {
-    var search = models.player.track.artists[0].name + " " + models.player.track.name;
-    search = search.replace(/&/g, 'and');
-    search = search.replace(/ /g, '+');
+    var search = createSearchString();
     getData("http://app.ultimate-guitar.com/search.php?search_type=title&page=1&iphone=1&value="+search, 'xml', fetchTab);
+  }
+
+  function createSearchString() {
+    var from = "åÅäÄöÖ";
+    var to   = "aAaAoO";
+    var pattern = new RegExp("["+from+"]", "g");
+    var str = models.player.track.artists[0].name + " " + models.player.track.name;
+    str = str.replace(pattern, function(ch) { return to[from.indexOf(ch)]; } );
+    return str.replace(/ /g, '+').replace(/&/g, 'and');
   }
 
   function fetchTab(data) {

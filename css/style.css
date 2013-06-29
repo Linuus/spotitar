@@ -1,3 +1,58 @@
 html {
   overflow: auto;
 }
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#top-bar {
+  background: -webkit-linear-gradient(top, rgba(50,50,50,1) 0%, rgba(37,37,37,1) 100%);
+  margin-top: -16px;
+}
+
+h1#track-header {
+  line-height: 60px;
+  margin-bottom: 0;
+  color: white;
+  padding-left: 1em;
+  box-sizing: border-box;
+  width: 79%;
+  display: inline-block;
+}
+
+#top-bar .versions-button-wrapper {
+  width: 20%;
+  box-sizing: border-box;
+  display: inline-block;
+  text-align: right;
+  position: absolute;
+  top: 18px;
+}
+
+.versions-button {
+  background: -webkit-linear-gradient(top, rgb(236,236,236) 0%, rgb(192,192,192) 100%);
+  border: 1px solid rgb(183,183,183); 
+  border-radius: 3px;
+  color: rgb(42,42,42);
+  text-shadow: 0px 1px 0px rgba(255,255,255,.5);
+}
+
+.versions-button:hover {
+  cursor: pointer;
+}
+
+.versions-button:active {
+  background: -webkit-linear-gradient(top, rgb(192,192,192) 0%, rgb(236,236,236) 100%);
+}
+
+#tab-area {
+  min-height: 200px;
+  font-size: 1.3em;
+  padding-left: 1em;
+}
+
+span.chord {
+  font-weight: bold;
+}

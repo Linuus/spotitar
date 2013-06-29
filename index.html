@@ -6,16 +6,22 @@
     <title>The name of the app</title>
     <!-- Include the stylesheets you need for the Views components -->
     <!-- See https://developer.spotify.com/technologies/apps/docs/preview/views/ -->
+    <link rel="stylesheet" href="$views/css/buttons.css">
     <link rel="stylesheet" href="$views/css/image.css">
     <link rel="stylesheet" href="$views/css/list.css">
-    <link rel="stylesheet" href="$views/css/buttons.css">
-    <!-- <link rel="stylesheet" href="$views/css/throbber.css"> -->
+    <link rel="stylesheet" href="$views/css/popup.css">
+    <link rel="stylesheet" href="$views/css/scrollbar.css">
+    <link rel="stylesheet" href="$views/css/tabbar.css">
+    <link rel="stylesheet" href="$views/css/throbber.css">
     <link rel="stylesheet" href="css/style.css">
     <!-- If you are using the preview SDK for webplayer then uncomment the script below -->
     <!--script src="http://d1hza3lyffsoht.cloudfront.net/preview-sdk/bootstrap.js"></script-->
   </head>
   <body>
-    <h1 id="track-header"></h1>
+    <div id="top-bar">
+      <h1 id="track-header"></h1>
+      <div class="versions-button-wrapper"></div>
+    </div>
     <div id="tab-area"></div>
     <script src="scripts/jquery-2.0.2.min.js"></script>
     <script src="scripts/main.js"></script>

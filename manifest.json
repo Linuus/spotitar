@@ -1,6 +1,6 @@
 {
   "AppDescription": {
-    "en": "Description of My Boilerplate App"
+    "en": "An app which fetches chords and tabs from Ultimate-Guitar.com"
   },
   "AppIcon": {
     "18x18": "images/icons/icon-18x18.png",
@@ -11,9 +11,9 @@
     "300x300": "images/icons/icon-300x300.png"
   },
   "AppName": {
-    "en": "Ultimate-Guitar"
+    "en": "Spotitar"
   },
-  "BundleIdentifier": "ultimate-guitar",
+  "BundleIdentifier": "spotitar",
   "BundleType": "Application",
   "BundleVersion": "0.0.1",
   "Dependencies": {

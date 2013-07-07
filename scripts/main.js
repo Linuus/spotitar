@@ -1,3 +1,5 @@
+var Spotitar;
+
 require([
   '$api/models',
   '$views/buttons',
@@ -6,108 +8,134 @@ require([
 ], function(models, buttons, Throbber, popup) {
   'use strict';
 
-  // Get the currently-playing track
-  models.player.load('track').done(updateCurrentTrack);
-  // Update the DOM when the song changes
-  models.player.addEventListener('change:track', updateCurrentTrack);
 
-  var Tracks = [];
+  var Tab = (function() {
 
-  function updateCurrentTrack() {
-    Tracks = [];
-    $("#tab-area").text('');
-    updateTrackHeader();
-    createVersionsButton();
-    updateTab();
-  }
+    var tab = function(id, name, url, version, type, type_2) {
 
-  function createVersionsButton() {
-    if($(".versions-button").size() == 0) {
-      var btn = buttons.CustomButton.withClass('versions-button');
-      btn.setLabel("Versions");
-      btn.setAccentuated(true);
-      $('#top-bar .versions-button-wrapper').append(btn.node);
-    }
-  }
+      var _id = id,
+          _name = name,
+          _url = url,
+          _version = version,
+          _type = type,
+          _type_2 = type_2,
+          _tab = null;
 
-  function updateTrackHeader() {
-    var currentTrackEl = $("#track-header");
-    if(models.player.track == null) {
-      currentTrackEl.text('No tracks is playing');
-    } else {
-      var artists = models.player.track.artists;
-      var artists_array = [];
-      for(var i=0; i<artists.length; i++) {
-        artists_array.push(artists[i].name);
+
+      
+      var formatTab = function(tab) {
+        var nTab = tab.replace(/\[ch\]/g, '<span class="chord">');
+        nTab = nTab.replace(/\[\/ch\]/g, "</span>");
+        return nTab;
       }
-      currentTrackEl.text(artists_array.join(', ') + " - " + models.player.track.name);
-    }
-  }
+      
+      
+      this.getId = function() { return _id; };
+      this.getName = function() { return _name; };
+      this.getUrl = function() { return _url; };
+      this.getType = function() { return _type; };
+      this.getType_2 = function() { return _type_2; };
 
-  function updateTab() {
-    var search = createSearchString();
-    getData("http://app.ultimate-guitar.com/search.php?search_type=title&page=1&iphone=1&value="+search, 'xml', fetchTabs);
-  }
+      this.setTab = function(tab) { 
+        _tab = tab;
+      }
 
-  function createSearchString() {
-    var from = "åÅäÄöÖ";
-    var to   = "aAaAoO";
-    var pattern = new RegExp("["+from+"]", "g");
-    var str = models.player.track.artists[0].name + " " + models.player.track.name;
-    str = str.replace(pattern, function(ch) { return to[from.indexOf(ch)]; } );
-    return str.replace(/ /g, '+').replace(/&/g, 'and');
-  }
+      this.getTab = function() {
+        var that = this;
+        if(_tab === null) {
+          $.ajax({
+            url: _url,
+            dataType: 'html',
+            async: false
+          }).done(function(data) {
+            that.setTab(data);
+          });
+        }
+        return formatTab(_tab);
+      }
 
-  function fetchTabs(data) {
-    var results = $(data).find('results').attr('count');
-    if(results > 0) {
-      $(data).find('result').each(function() {
-        Tracks.push({
-          id: $(this).attr('id'),
-          name: $(this).attr('name'),
-          url: $(this).attr('url'),
-          version: $(this).attr('version'),
-          type: $(this).attr('type'),
-          type_2: $(this).attr('type_2')
+      this.render = function() {
+        $('#tab-area').html(this.getTab());
+      }
+
+    };
+
+    return tab;
+  
+  })();
+ 
+
+  Spotitar = (function() {
+
+    var _Tabs = [],
+        _models,
+        _tabArea = $('#tab-area');
+
+    var createTabs = function(data) {
+      _Tabs = [];
+      var results = $(data).find('results').attr('count');
+      if(results > 0) {
+        $(data).find('result').each(function() {
+          var tab = new Tab($(this).attr('id'),
+                            $(this).attr('name'),
+                            $(this).attr('url'),
+                            $(this).attr('version'),
+                            $(this).attr('type'),
+                            $(this).attr('type_2'));
+          _Tabs.push(tab);
         });
-      });
-      displayTab(Tracks[0]);
-    } else {
-      renderTab("No tracks were found");
-    }
-  }
-
-  function displayTab(track) {
-    getData(track.url, 'html', renderTab);
-  }
-
-  function renderTab(tab) {
-    var formatted = formatTab(tab);
-    $("#tab-area").html(formatted);
-    
-  }
-
-  function formatTab(tab) {
-    var nTab = tab.replace(/\[ch\]/g, '<span class="chord">');
-    nTab = nTab.replace(/\[\/ch\]/g, "</span>");
-    return nTab;
-  }
-
-  function getData(url, dataType, callback) {
-    var tabArea = document.getElementById('tab-area');
-    var throbber = Throbber.forElement(tabArea);
-    $.ajax({
-      url: url,
-      dataType: dataType,
-      success: function(data) {
-        throbber.hide();
-        callback(data);
-      },
-      error: function(data) {
-        console.log("Error");
+        _Tabs[0].render();
       }
-    });
-  }
+    }
+
+    var fetchTabs = function() {
+      var throbber = Throbber.forElement(_tabArea[0]);
+      $.ajax({
+        url: "http://app.ultimate-guitar.com/search.php?search_type=title&page=1&iphone=1&value="+createSearchString(),
+        dataType: 'xml'
+      }).done(function(data){
+        throbber.hide();
+        createTabs(data);
+      }).fail(function(){
+        console.log("Error");
+      });
+    }
+
+    var createSearchString = function() {
+      var from = "åÅäÄöÖéÉ";
+      var to   = "aAaAoOeE";
+      var pattern = new RegExp("["+from+"]", "g");
+      var str = models.player.track.artists[0].name + " " + models.player.track.name;
+      str = str.replace(pattern, function(ch) { return to[from.indexOf(ch)]; } );
+      return str.replace(/ /g, '+').replace(/&/g, 'and');
+    }
+
+    var application = {
+      init: function() {
+        fetchTabs();
+      },
+      updateCurrentTrack: function() {
+        _tabArea.text('');
+        $("#track-header").text(models.player.track.artists[0].name + " - " + models.player.track.name);
+        fetchTabs();
+      },
+      getTabs: function() {
+        return _Tabs;
+      }
+    }
+    return application;
+
+  })();
+
+
+
+  // Get the currently-playing track
+  models.player.load('track').done(Spotitar.updateCurrentTrack);
+
+  // Update the DOM when the song changes
+  models.player.addEventListener('change:track', Spotitar.updateCurrentTrack);
+
+  Spotitar.init();
 
 
 });

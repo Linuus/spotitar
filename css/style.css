@@ -31,20 +31,24 @@ h1#track-header {
   top: 18px;
 }
 
-.versions-button {
-  background: -webkit-linear-gradient(top, rgb(236,236,236) 0%, rgb(192,192,192) 100%);
-  border: 1px solid rgb(183,183,183); 
-  border-radius: 3px;
-  color: rgb(42,42,42);
-  text-shadow: 0px 1px 0px rgba(255,255,255,.5);
+#version-list a {
+  display: block;
+  color: #333;
+  text-decoration: none;
+  line-height: 20px;
+  margin-left: 12px;
+  padding-top: 4px;
+  border-bottom: 1px solid #DDD;
 }
 
-.versions-button:hover {
-  cursor: pointer;
+#version-list a.active:before {
+  content: "✔";
+  position: absolute;
+  left: 7px;
 }
 
-.versions-button:active {
-  background: -webkit-linear-gradient(top, rgb(192,192,192) 0%, rgb(236,236,236) 100%);
+#version-list a:last-child {
+  border: none;
 }
 
 #tab-area {

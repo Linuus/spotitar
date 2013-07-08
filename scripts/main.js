@@ -21,6 +21,16 @@ require([
           _type_2 = type_2,
           _tab = null;
       
+      var versionLink = $('<a/>');
+      versionLink.attr('href', '#');
+      versionLink.text("Version " + _version + " [" + _type + "]");
+      if(_type_2) { versionLink.text(versionLink.text() + " (" + _type_2 + ")"); }
+
+      var that = this;
+      versionLink.on('click', function(e) {
+        that.render();
+      });
+      versionListContainer.appendChild(versionLink[0]);
       
       var formatTab = function(tab) {
         var nTab = tab.replace(/\[ch\]/g, '<span class="chord">');
@@ -42,14 +52,6 @@ require([
         _tab = tab;
       }
 
-      var versionLink = $('<a/>');
-      versionLink.attr('href', '#');
-      versionLink.text(this.getVersion() + " [" + this.getType() + "]");
-      var that = this;
-      versionLink.on('click', function(e) {
-        that.render();
-      });
-      versionListContainer.appendChild(versionLink[0]);
 
       this.getTab = function() {
         var that = this;
@@ -67,7 +69,7 @@ require([
 
       this.render = function() {
         $('#tab-area').html(this.getTab());
-        $('#version-list a').each(function(i, el) {
+        $('#version-list a.active').each(function(i, el) {
           el.setAttribute('class', '');
         });
         versionLink.attr('class', 'active');
@@ -90,27 +92,31 @@ require([
   var versionListContainer = document.createElement('div');
   versionListContainer.setAttribute('id', 'version-list');
   
-  var versionsPopup = popup.Popup.withContent(versionListContainer, 150, 150);
+  var versionsPopup = popup.Popup.withContent(versionListContainer, 180, 150);
   $('.versions-button-wrapper button').on('click', function(){
     versionsPopup.showFor(this);
   });
 
   function createTabs(data) {
     tabs = {};
+    numberOfTabs = 0;
+    versionListContainer.innerHTML = '';
     var results = $(data).find('results').attr('count');
     if(results > 0) {
       $(data).find('result').each(function() {
-        var tab = new Tab($(this).attr('id'),
-                          $(this).attr('name'),
-                          $(this).attr('url'),
-                          $(this).attr('version'),
-                          $(this).attr('type'),
-                          $(this).attr('type_2'));
-        tabs[tab.getId()] = tab;
-        numberOfTabs++;
+        if($(this).attr('type_2') != 'album') {
+          var tab = new Tab($(this).attr('id'),
+                            $(this).attr('name'),
+                            $(this).attr('url'),
+                            $(this).attr('version'),
+                            $(this).attr('type'),
+                            $(this).attr('type_2'));
+          tabs[tab.getId()] = tab;
+          numberOfTabs++;
+        }
       });
       renderTab();
-      versionsPopup.resize(150, numberOfTabs*25);
+      versionsPopup.resize(180, numberOfTabs*25);
     }
   }
 

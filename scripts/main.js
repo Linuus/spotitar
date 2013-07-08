@@ -40,13 +40,6 @@ require([
       
       
       this.getId = function() { return _id; };
-      this.getName = function() { return _name; };
-      this.getUrl = function() { return _url; };
-      this.getVersion = function() {
-        return "Version " + _version;
-      };
-      this.getType = function() { return _type; };
-      this.getType_2 = function() { return _type_2; };
 
       this.setTab = function(tab) { 
         _tab = tab;

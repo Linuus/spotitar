@@ -35,20 +35,19 @@ h1#track-header {
   display: block;
   color: #333;
   text-decoration: none;
-  line-height: 20px;
-  margin-left: 12px;
-  padding-top: 4px;
-  border-bottom: 1px solid #DDD;
+  line-height: 24px;
+  padding-left: 15px;
+  border-bottom: 1px solid rgba(220,220,220,.5);
+  border-top: 1px solid rgba(255,255,255,.5);
+}
+#version-list a:hover {
+  background: rgb(230,230,230);
 }
 
 #version-list a.active:before {
   content: "✔";
   position: absolute;
-  left: 7px;
-}
-
-#version-list a:last-child {
-  border: none;
+  left: 12px;
 }
 
 #tab-area {

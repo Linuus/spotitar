@@ -66,6 +66,7 @@ require([
           el.setAttribute('class', '');
         });
         versionLink.attr('class', 'active');
+        //scroller();
       }
 
     };
@@ -74,6 +75,10 @@ require([
   
   })();
 
+  var scrollSpeed = 0;
+  function scroller() {
+    $('body,html').animate({scrollTop: $(document).height()-$(window).height()}, models.player.track.duration);
+  }
 
   var tabs = {},
       numberOfTabs = 0,

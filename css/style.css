@@ -22,6 +22,31 @@ h1#track-header {
   display: inline-block;
 }
 
+#scroller {
+  position: fixed;
+  top: 80px;
+  right: 10px;
+  background: rgba(238,238,238,1);
+  border: 1px solid rgba(211,211,211,1);
+  box-shadow: 0px 0px 5px rgba(0,0,0,.1);
+  border-radius: 5px;
+  padding: 10px;
+  text-align: center;
+}
+
+#scroller h3 {
+  margin: 0;
+  margin-bottom: 15px;
+}
+
+#scroller a {
+  display: block;
+  margin-top: 10px;
+  text-decoration: none;
+  font-size: 30px;
+  color: #333;
+}
+
 #top-bar .versions-button-wrapper {
   width: 20%;
   box-sizing: border-box;

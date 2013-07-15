@@ -1,4 +1,3 @@
-var Spotitar;
 
 require([
   '$api/models',

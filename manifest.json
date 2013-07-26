@@ -17,7 +17,7 @@
   "BundleType": "Application",
   "BundleVersion": "0.0.1",
   "Dependencies": {
-    "api": "1.0.0",
+    "api": "1.3.0",
     "views": "1.10.0"
   },
   "RequiredPermissions": [

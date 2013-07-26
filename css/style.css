@@ -84,3 +84,12 @@ h1#track-header {
 span.chord {
   font-weight: bold;
 }
+
+#no-tab-found {
+  font-size: 40px;
+  text-align: center;
+  font-weight: bold;
+  font-style: italic;
+  color: rgb(88, 88, 88);
+  text-shadow: 0px 1px 1px #FFF;
+}

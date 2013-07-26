@@ -3,76 +3,12 @@ require([
   '$api/models',
   '$views/buttons',
   '$views/throbber#Throbber',
-  '$views/popup'
-], function(models, buttons, Throbber, popup) {
+  '$views/popup',
+  'scripts/tab#Tab'
+], function(models, buttons, Throbber, popup, Tab) {
   'use strict';
 
 
-  var Tab = (function() {
-
-    var tab = function(id, name, url, version, type, type_2) {
-
-      var _id = id,
-          _name = name,
-          _url = url,
-          _version = version,
-          _type = type,
-          _type_2 = type_2,
-          _tab = null;
-      
-      var versionLink = $('<a/>');
-      versionLink.attr('href', '#');
-      versionLink.text("Version " + _version + " [" + _type + "]");
-      if(_type_2) { versionLink.text(versionLink.text() + " (" + _type_2 + ")"); }
-
-      var that = this;
-      versionLink.on('click', function(e) {
-        that.render();
-      });
-      versionListContainer.appendChild(versionLink[0]);
-      
-      var formatTab = function(tab) {
-        var nTab = tab.replace(/\[ch\]/g, '<span class="chord">');
-        nTab = nTab.replace(/\[\/ch\]/g, "</span>");
-        return nTab;
-      }
-      
-      
-      this.getId = function() { return _id; };
-
-      this.setTab = function(tab) { 
-        _tab = tab;
-      }
-
-
-      this.getTab = function() {
-        var that = this;
-        if(_tab === null) {
-          $.ajax({
-            url: _url,
-            dataType: 'html',
-            async: false
-          }).done(function(data) {
-            that.setTab(data);
-          });
-        }
-        return formatTab(_tab);
-      }
-
-      this.render = function() {
-        $('#tab-area').html(this.getTab());
-        $('#version-list a.active').each(function(i, el) {
-          el.setAttribute('class', '');
-        });
-        versionLink.attr('class', 'active');
-        //scroller();
-      }
-
-    };
-
-    return tab;
-  
-  })();
 
   var scrollSpeed = 0;
   function scroller() {
@@ -109,20 +45,25 @@ require([
                             $(this).attr('type'),
                             $(this).attr('type_2'));
           tabs[tab.getId()] = tab;
+          versionListContainer.appendChild(tab.getVersionLink()[0]);
           numberOfTabs++;
         }
       });
-      renderTab();
       versionsPopup.resize(180, numberOfTabs*25);
     }
+    renderTab();
   }
 
   function renderTab(tabId) {
-    if(tabId) {
+    if(numberOfTabs == 0) {
+      $('#no-tab-found').show();
+    } else if(tabId) {
+      $('#no-tab-found').hide();
       tabs[tabId].render();
     } else {
       for(var t in tabs) {
         tabs[t].render();
+        $('#no-tab-found').hide();
         break;
       }
     }

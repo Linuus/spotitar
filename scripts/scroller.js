@@ -44,7 +44,7 @@ require([
   function trackChanged() {
     if(models.player.playing && !isScrolling) {
       start();
-    } else {
+    } else if(!models.player.playing) {
       stop();
     }
   }

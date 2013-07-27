@@ -4,16 +4,11 @@ require([
   '$views/buttons',
   '$views/throbber#Throbber',
   '$views/popup',
-  'scripts/tab#Tab'
-], function(models, buttons, Throbber, popup, Tab) {
+  'scripts/tab#Tab',
+  'scripts/scroller'
+], function(models, buttons, Throbber, popup, Tab, Scroller) {
   'use strict';
 
-
-
-  var scrollSpeed = 0;
-  function scroller() {
-    $('body,html').animate({scrollTop: $(document).height()-$(window).height()}, models.player.track.duration);
-  }
 
   var tabs = {},
       numberOfTabs = 0,
@@ -60,10 +55,12 @@ require([
     } else if(tabId) {
       $('#no-tab-found').hide();
       tabs[tabId].render();
+      Scroller.start();
     } else {
       for(var t in tabs) {
-        tabs[t].render();
         $('#no-tab-found').hide();
+        tabs[t].render();
+        Scroller.start();
         break;
       }
     }

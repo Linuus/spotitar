@@ -93,3 +93,13 @@ span.chord {
   color: rgb(88, 88, 88);
   text-shadow: 0px 1px 1px #FFF;
 }
+
+#powered-by {
+  position: fixed;
+  font-size: 9px;
+  text-align: right;
+  bottom: 0px;
+  right: 0px;
+  padding: 5px;
+  background: rgba(238,238,238,1);
+}

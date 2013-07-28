@@ -47,6 +47,10 @@ h1#track-header {
   color: #333;
 }
 
+a#toggle-scroll {
+  font-size: 20px;
+}
+
 #top-bar .versions-button-wrapper {
   width: 20%;
   box-sizing: border-box;

@@ -22,15 +22,14 @@ require([
   }
 
   function start() {
-    if(scrollDuration === null) {
-      scrollDuration = models.player.track.duration;
-    }
+    viewport.stop(); // Remove old animations
+    scrollDuration = models.player.track.duration;
     if(models.player.playing) {
       scroll();
     }
   }
 
-  function stop() {
+  function halt() {
     viewport.stop();
     isScrolling = false;
     $('#toggle-scroll').text('Start');
@@ -38,35 +37,37 @@ require([
 
   function toggleScroll() {
     if(isScrolling) {
-      stop();
+      halt();
     } else {
       scroll();
     }
   }
 
   function increase() {
-    stop();
+    viewport.stop();
     scrollDuration = scrollDuration * 0.9;
     scroll();
   }
 
   function decrease() {
-    stop();
+    viewport.stop();
     scrollDuration = scrollDuration * 1.1;
     scroll();
   }
 
   function trackChanged() {
     if(models.player.playing && !isScrolling) {
-      start();
+      scroll();
     } else if(!models.player.playing) {
-      stop();
+      halt();
     }
   }
 
-  viewport.bind("scroll mousedown DOMMouseScroll mousewheel keyup", function(e){
+  // This turns autoscroll off when the user scrolls manually. Otherwise the animation
+  // makes it impossible to scroll without manually stopping the autscroller first
+  viewport.bind("scroll DOMMouseScroll mousewheel", function(e){
     if (isScrolling && ( e.which > 0 || e.type === "mousedown" || e.type === "mousewheel" )){
-      stop();  //.unbind('scroll mousedown DOMMouseScroll mousewheel keyup'); // This identifies the scroll as a user action, stops the animation, then unbinds the event straight after (optional)
+      halt();
     }
   });
 
@@ -80,7 +81,6 @@ require([
     increase();
   });
   $('#toggle-scroll').on('click', function(e) {
-    console.log("Toggle");
     e.preventDefault();
     toggleScroll();
   });

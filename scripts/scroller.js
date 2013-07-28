@@ -3,41 +3,56 @@ require([
 ], function(models) {
   'use strict';
 
-  var scrollSpeed = 0;
+  var scrollDuration = null;
   var isScrolling = false;
+  var viewport = $('body,html');
 
   function scroll() {
-    $('body,html').animate(
+    viewport.animate(
       {
         scrollTop: $(document).height()-$(window).height()
       },
       {
-        duration: scrollSpeed,
+        duration: scrollDuration,
         easing: 'linear'
       }
     );
     isScrolling = true;
+    $('#toggle-scroll').text('Stop');
   }
 
   function start() {
-    scrollSpeed = models.player.track.duration;
-    if(models.player.playing) { scroll(); }
+    if(scrollDuration === null) {
+      scrollDuration = models.player.track.duration;
+    }
+    if(models.player.playing) {
+      scroll();
+    }
   }
 
   function stop() {
-    $('body,html').stop();
+    viewport.stop();
     isScrolling = false;
+    $('#toggle-scroll').text('Start');
+  }
+
+  function toggleScroll() {
+    if(isScrolling) {
+      stop();
+    } else {
+      scroll();
+    }
   }
 
   function increase() {
     stop();
-    scrollSpeed = scrollSpeed * 0.9;
+    scrollDuration = scrollDuration * 0.9;
     scroll();
   }
 
   function decrease() {
     stop();
-    scrollSpeed = scrollSpeed * 1.1;
+    scrollDuration = scrollDuration * 1.1;
     scroll();
   }
 
@@ -49,17 +64,25 @@ require([
     }
   }
 
-  $('#less').on('click', function(e) {
+  viewport.bind("scroll mousedown DOMMouseScroll mousewheel keyup", function(e){
+    if (isScrolling && ( e.which > 0 || e.type === "mousedown" || e.type === "mousewheel" )){
+      stop();  //.unbind('scroll mousedown DOMMouseScroll mousewheel keyup'); // This identifies the scroll as a user action, stops the animation, then unbinds the event straight after (optional)
+    }
+  });
+
+
+  $('#less-scroll').on('click', function(e) {
     e.preventDefault();
     decrease();
   });
-  $('#more').on('click', function(e) {
+  $('#more-scroll').on('click', function(e) {
     e.preventDefault();
     increase();
   });
-  $('#stop').on('click', function(e) {
+  $('#toggle-scroll').on('click', function(e) {
+    console.log("Toggle");
     e.preventDefault();
-    stop();
+    toggleScroll();
   });
 
   models.player.addEventListener('change', trackChanged);

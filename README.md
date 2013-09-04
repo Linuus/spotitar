@@ -24,4 +24,4 @@ I am not affiliated with Ultimate-Guitar.com and the app has not been approved b
 **NOTE:** You have to perform step 4-5 each time you restart your Spotify application.
 
 ## Screenshot
-![Alt text](https://github.com/Linuus/spotitar/blob/master/images/screen.png "Screenshot")
+![Alt text](https://raw.github.com/Linuus/spotitar/master/images/screen.png "Screenshot")

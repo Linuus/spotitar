@@ -10,7 +10,9 @@ I am not affiliated with Ultimate-Guitar.com and the app has not been approved b
 1. Clone the repo from Github or [download](https://github.com/Linuus/spotitar/archive/master.zip) it as a zip-file.
 
 2. Extract and put the content in:
+
   OSX: ~/Spotify/spotitar
+  
   Windows: User/Documents/Spotify/spotitar
 
 3. Apply as a [developer at Spotify](https://developer.spotify.com/technologies/apps/).
@@ -20,3 +22,6 @@ I am not affiliated with Ultimate-Guitar.com and the app has not been approved b
 5. Press the "Add" button to add the app to your sidebar.
 
 **NOTE:** You have to perform step 4-5 each time you restart your Spotify application.
+
+## Screenshot
+![Alt text](https://github.com/Linuus/spotitar/images/screen.png "Screenshot")
